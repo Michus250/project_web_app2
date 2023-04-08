@@ -5,3 +5,8 @@ Content-Type: application/json
     "email" : "test1@pollub.pl",
     "password" : "1234"
 }
+
+###
+
+GET http://localhost:5000/users
+
