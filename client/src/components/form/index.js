@@ -1,27 +1,22 @@
 import React from 'react';
-import axios from 'axios';
+
 class Form extends React.Component{
     constructor(props){
         super(props);
         const initialState = props.list.reduce((acc, [key, value]) => {
           return { ...acc, [key]: '' };
         }, {});
-        
+        const errors = props.list.map(([key, value]) => [key, '']);
         this.state = {
           ...initialState,
-          errors : []
+          errors : errors
         };
         
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
        
     }
-    
-   
-     
-    
-    
-
+ 
     handleChange = (event) =>{
         this.setState({[event.target.name] : event.target.value});
     }
@@ -42,26 +37,42 @@ class Form extends React.Component{
       })
       .then(data => {
         if ('errors' in data){
+          // let errors = data.errors; 
           console.log(data.errors);
           let zm = [];
-          
-      
-          this.props.list.map(name=>{
+
+            
+
+            
+            this.props.list.map((index) =>{
               let errorMsg = "";
-              data.errors.map(element =>{
-                // console.log(name);
-                if (element.param == name[0]){
-                  
+              data.errors.map(element=>{
+                if (element.param === index[0]){     
                   errorMsg = element.msg;
-                  zm.push([element.param, errorMsg]);       //Tutaj trzeba poprwaić i tu był koniec
+  
                 }
-              })
-                
-              
+               
+              return element;
+              });
+              zm.push([index[0],errorMsg]);
+              return index;
             });
+            
+              
+          
+         
           console.log("zm");
           console.log(zm);
+          this.setState({
+            ...this.state,
+            password : '',
+            errors : zm
+          });
 
+        }
+        if('info' in data){
+          console.log(data.info);
+          window.location.href="/";
         }
           
       })
@@ -75,14 +86,17 @@ class Form extends React.Component{
 
     render(){
         return(
-            <form  onSubmit={this.handleSubmit} >
+            <form  onSubmit={this.handleSubmit} method='POST' >
           
-          {this.props.list.map(element => {
+          {this.props.list.map((element,index) => {
             return (<div>
               {element[0]}  <input type={element[1]} name={element[0]} value={this.state[element[0]]} onChange={this.handleChange} ></input> <br></br>
+              {this.state.errors[index][1]}<br></br>
+              
             </div>);
           })}
           <input type='submit' value= {this.props.submitName}></input>
+          
           
         </form>
         

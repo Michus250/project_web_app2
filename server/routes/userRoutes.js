@@ -29,8 +29,16 @@ router.post('/register',
  async (req,res) =>{
    
     const errors = validationResult(req);
+    let err = errors.array();
+    console.log(err.length);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+        
+        while(err.length< 2){
+            err.push({msg: ""});
+            // console.log(err.array());
+        }
+        console.log(err);
+        return res.status(422).json({ errors: err });
     }
     try{
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -41,7 +49,8 @@ router.post('/register',
     })
     
         await user.save();
-        res.status(201).json({user});
+        res.status(201).json({info : "Utworzono uzytkownika"});
+        
         
     }
     catch(err){
