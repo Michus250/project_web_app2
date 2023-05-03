@@ -1,106 +1,125 @@
 import React from 'react';
+import Alert from 'react-bootstrap/Alert';
 
-class Form extends React.Component{
-    constructor(props){
-        super(props);
-        const initialState = props.list.reduce((acc, [key, value]) => {
-          return { ...acc, [key]: '' };
-        }, {});
-        const errors = props.list.map(([key, value]) => [key, '']);
-        this.state = {
-          ...initialState,
-          errors : errors
-        };
-        
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-       
-    }
- 
-    handleChange = (event) =>{
-        this.setState({[event.target.name] : event.target.value});
-    }
-    handleSubmit = (event) => {
-      event.preventDefault();
-      fetch(this.props.path, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(this.state)
-      })
+class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    const initialState = props.list.reduce((acc, [key, value]) => {
+      return { ...acc, [key]: '' };
+    }, {});
+    const errors = props.list.map(([key, value]) => [key, '']);
+    this.state = {
+      ...initialState,
+      errors: errors,
+      info: "",
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+  handleSubmit = (event) => {
+    event.preventDefault();
+    fetch(this.props.path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(this.state)
+    })
       .then(response => {
-        if (!response.ok) { 
-            // const isError = true;
-           
+        if (!response.ok) {
+          // const isError = true;
+
           // throw (response.json());
         }
         return response.json();
       })
       .then(data => {
-        if ('errors' in data){
+        if ('errors' in data) {
           // let errors = data.errors; 
           console.log(data.errors);
           let zm = [];
 
-            
 
-            
-            this.props.list.map((index) =>{
-              let errorMsg = "";
-              data.errors.map(element=>{
-                if (element.param === index[0]){     
-                  errorMsg = element.msg;
-  
-                }
-               
+
+
+          this.props.list.map((index) => {
+            let errorMsg = "";
+            data.errors.map(element => {
+              if (element.param === index[0]) {
+                errorMsg = element.msg;
+
+              }
+
               return element;
-              });
-              zm.push([index[0],errorMsg]);
-              return index;
             });
-            
-              
-          
-         
+            zm.push([index[0], errorMsg]);
+            return index;
+          });
+
+
+
+
           console.log("zm");
           console.log(zm);
           this.setState({
             ...this.state,
-            password : '',
-            errors : zm
+            password: '',
+            errors: zm
           });
 
         }
-        if('info' in data){
+        if ('info' in data) {
           console.log(data.info);
-          window.location.href="/";
-        }
+          this.setState({
+            ...this.state,
+            info : data.info
+          })
+          setTimeout(function(){
+            window.location.href = "/";
+          }, 5000);
           
+
+
+        }
+
+
       })
       .catch(error => {
         console.log(error);
-        
-      });
-    }
-    
-      
 
-    render(){
-        return(
-            <form  onSubmit={this.handleSubmit} method='POST' >
-          
-          {this.props.list.map((element,index) => {
+      });
+  }
+
+
+
+  render() {
+    if(this.state.info === ""){
+      return(
+        <form onSubmit={this.handleSubmit} method='POST' >
+
+          {this.props.list.map((element, index) => {
             return (<div>
               {element[0]}  <input type={element[1]} name={element[0]} value={this.state[element[0]]} onChange={this.handleChange} ></input> <br></br>
               {this.state.errors[index][1]}<br></br>
-              
+
             </div>);
           })}
-          <input type='submit' value= {this.props.submitName}></input>
-          
-          
+          <input type='submit' value={this.props.submitName}></input>
+
+
         </form>
-        
-        );
+      )
     }
-} 
+    return (
+      <div>
+        
+        <Alert variant='success' key='success'>{this.state.info}</Alert>
+      </div>
+    );
+  }
+}
 export default Form;

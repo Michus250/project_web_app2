@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import Form from './components/form'
 import Nav from './components/nav';
+import Home from './components/home';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
+
 
 import reportWebVitals from './reportWebVitals';
 
@@ -20,6 +23,7 @@ root.render(
       <Routes>
           <Route path="/register" element = {<Form list ={registerList} submitName="Register" path="/register" ></Form>}></Route>
           <Route path="/login" element = {<Form list ={loginList} submitName="Login" path ="/login" ></Form>}></Route>
+          <Route path="/" element = {<Home></Home>}></Route>
           {/* <Route path="*" element = {<Form list ={loginList} submitName="Login"></Form>}></Route> */}
       </Routes>
 
