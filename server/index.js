@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const userRoutes = require("./routes/userRoutes");
+const auth = require('./routes/auth');
+
 
 
 
@@ -18,6 +20,7 @@ db.once('open', () => console.log("Connected to Database"));
 
 app.use(express.json());
 app.use(userRoutes);
+app.use(auth);
 
 
 

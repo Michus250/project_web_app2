@@ -1,18 +1,32 @@
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
-function submitHandler(){
-  
-}
+import Signup from './components/register';
+import Login from './components/login';
+
+import Nav from './components/nav';
+import Home from './components/home';
+import {Route, Routes, BrowserRouter, Navigate} from 'react-router-dom';
+
+
+
+
+const navList = [['login','/login',true],['register','/register',true]];
 
 function App() {
   return (
-    <div >
-        <form action = "/register" omsubmit={submitHandler}>
-          email: <input type='email' name='email' required></input> <br></br>
-          password: <input type ='password' name='password' required></input><br></br>
-          <input type='submit' value= "Register"></input>
-        </form>
-    </div>
+    <BrowserRouter>
+      <Nav list= {navList}></Nav>
+      <Routes>
+        <Route path="/register" element= {<Signup></Signup>}></Route>
+         
+          <Route path="/login" element ={<Login></Login>} ></Route>
+          <Route path="/" element = {<Home></Home>}></Route>
+          <Route path="*" element = {<Home></Home>}></Route>
+          
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 
