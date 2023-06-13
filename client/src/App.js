@@ -6,14 +6,23 @@ import Login from './components/login';
 
 import Nav from './components/nav';
 import Home from './components/home';
-import {Route, Routes, BrowserRouter, Navigate} from 'react-router-dom';
+import {Route, Routes, BrowserRouter} from 'react-router-dom';
 
 
 
 
-const navList = [['login','/login',true],['register','/register',true]];
 
+const token = localStorage.getItem("token");
+let  navList;
+
+console.log(token);
 function App() {
+  if (token === null){
+    navList = [['login','/login',true],['register','/register',true]];
+ }
+ else{
+    navList = [['logout','/logout',false]];
+ }
   return (
     <BrowserRouter>
       <Nav list= {navList}></Nav>
@@ -22,7 +31,8 @@ function App() {
          
           <Route path="/login" element ={<Login></Login>} ></Route>
           <Route path="/" element = {<Home></Home>}></Route>
-          <Route path="*" element = {<Home></Home>}></Route>
+          <Route path="/logout" ></Route>
+          {/* <Route path="*" element = {<Home></Home>}></Route> */}
           
       </Routes>
 

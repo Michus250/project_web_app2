@@ -49,6 +49,10 @@ router.get('/users', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 })
+router.get('/logout', async (req,res)=>{
+    console.log(localStorage.getItem("token"));
+    localStorage.removeItem("token");
+})
 
 
 

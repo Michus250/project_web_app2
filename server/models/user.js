@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
+const { json } = require('body-parser');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -22,6 +23,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role:{
+        type: String,
+        required: true
+    }
 });
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
@@ -37,6 +42,7 @@ const validate = (data) => {
         lastName: Joi.string().required().label("Last Name"),
         email: Joi.string().email().required().label("Email"),
         password: passwordComplexity().required().label("Password"),
+        role: Joi.required()
     })
     return schema.validate(data)
 }

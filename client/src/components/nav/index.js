@@ -15,7 +15,11 @@ class Nav extends React.Component{
                         
                             <Ul>
                             {this.props.list.map(element =>{
-                                return <A to={element[1]} onClick={element[2] ? () => window.location = element[1] : ""}><Li>{element[0]}</Li></A>
+                                if(element[1]!=='/logout')
+                                    return <A to={element[1]} onClick={element[2] ? () => window.location = element[1] : ""}><Li>{element[0]}</Li></A>
+                                else
+                                    return <A to={element[1]} onClick={()=>{localStorage.removeItem("token"); window.location = "/"}}><Li>{element[0]}</Li></A>
+
                             })}  
                             </Ul>
                         

@@ -9,6 +9,7 @@ const Signup = () => {
         lastName: "",
         email: "",
         password: "",
+        role: "user"
     })
     const [error, setError] = useState("")
     const navigate = useNavigate()
@@ -20,7 +21,7 @@ const Signup = () => {
         try {
             const url = "register"
             const { data: res } = await axios.post(url, data)
-            navigate("/home")
+            navigate("/")
             console.log(res.message)
         } catch (error) {
             if (
