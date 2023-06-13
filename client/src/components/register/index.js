@@ -9,7 +9,12 @@ const Signup = () => {
         lastName: "",
         email: "",
         password: "",
-        role: "user"
+        role: "user",
+        phone: "",
+        personalId: "",
+        address: "",
+        dateOfBirth: ""
+
     })
     const [error, setError] = useState("")
     const navigate = useNavigate()
@@ -68,6 +73,42 @@ const Signup = () => {
                         
                     /><br></br>
                     <input
+                        type="text"
+                        placeholder="phone"
+                        name="phone"
+                        onChange={handleChange}
+                        value={data.phone}
+                        required
+                        
+                    /><br></br>
+                    <input
+                        type="text"
+                        placeholder="personalId"
+                        name="personalId"
+                        onChange={handleChange}
+                        value={data.personalId}
+                        required
+                        
+                    /><br></br>
+                     <input
+                        type="text"
+                        placeholder="address"
+                        name="address"
+                        onChange={handleChange}
+                        value={data.address}
+                        required
+                        
+                    /><br></br>
+                    <input
+                        type="date"
+                        placeholder="dateOfBirth"
+                        name="dateOfBirth"
+                        onChange={handleChange}
+                        value={data.dateOfBirth}
+                        required
+                        
+                    /><br></br>
+                    <input
                         type="email"
                         placeholder="Email"
                         name="email"
@@ -85,6 +126,7 @@ const Signup = () => {
                         required
                         
                     /><br></br>
+                    
                     {error && <div
                        >{error}</div>}
                     <button type="submit"

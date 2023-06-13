@@ -26,10 +26,28 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         required: true
-    }
+    },
+    phone:{
+        type: String,
+        required: true
+    },
+    personalId:{
+        type: String,
+        required: true,
+        unique: true,
+    },
+    address:{
+        type: String,
+        required: true
+    },
+    dateOfBirth:{
+        type: Date,
+        required: true
+    },
+    
 });
 userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
+    const token = jwt.sign({ _id: this._id, role:this.role }, process.env.JWTPRIVATEKEY, {
         expiresIn: "7d",
     })
     return token    //ta funkcja jest ze skryptu trzeba sprawdzić czy działa
@@ -42,7 +60,12 @@ const validate = (data) => {
         lastName: Joi.string().required().label("Last Name"),
         email: Joi.string().email().required().label("Email"),
         password: passwordComplexity().required().label("Password"),
-        role: Joi.required()
+        role: Joi.required().label("role"),
+        phone:Joi.string().regex(/^[0-9]{9}$/).required().label("Phone"),
+        personalId:Joi.string().regex(/^[0-9]{11}$/).required().label("personalId"),
+        address: Joi.string().required().label("address"),
+        dateOfBirth: Joi.date().max('now').required().label("dateOfBirth"),
+
     })
     return schema.validate(data)
 }

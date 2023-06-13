@@ -1,31 +1,84 @@
 import React from "react";
 import styled from "styled-components";
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
 
 // import logo from "../../img/logo.jpg";
 
-class Nav extends React.Component{
-    
-    render(){
-        return(
-            
-                
-                    <Navigation>
-                        {/* <A to={'/'}><Logo src = {logo}></Logo></A> */}
-                        
-                            <Ul>
-                            {this.props.list.map(element =>{
-                                if(element[1]!=='/logout')
-                                    return <A to={element[1]} onClick={element[2] ? () => window.location = element[1] : ""}><Li>{element[0]}</Li></A>
-                                else
-                                    return <A to={element[1]} onClick={()=>{localStorage.removeItem("token"); window.location = "/"}}><Li>{element[0]}</Li></A>
+class Nav extends React.Component {
 
-                            })}  
-                            </Ul>
+
+    render() {
+        const token = localStorage.getItem("token");
+        let isLogged;
+        let role;
+        let decodedToken;
+        if (token === null) {
+            isLogged = false;
+            role = "null";
+        }
+        else {
+            isLogged = true;
+            decodedToken = jwt_decode(token);
+            role = decodedToken.role;
+        }
+
+
+        return (
+
+
+            <Navigation>
+
+                {role === 'user' ? (
+                    <Ul>
+                        <A to="/receptionHours" onClick={() => { window.location = "/receptionHours" }}><Li>Godziny przyjęć</Li></A>
+                        <A to="/contact" onClick={() => { window.location = "/contact" }}><Li>Kontakt</Li></A>
+                        <A to="/createVisit" onClick={() => { window.location = "/createVisit" }}><Li>Umów wizytę</Li></A>
+                        <A to="/userExamination" onClick={() => { window.location = "/userExamination" }}><Li>Twoje badania</Li></A>
+                    </Ul>
+                ) : role === 'admin' ? (
+                    <Ul>
+                        <A to="/receptionHours" onClick={() => { window.location = "/receptionHours" }}><Li>Godziny przyjęć</Li></A>
+                        <A to="/contact" onClick={() => { window.location = "/contact" }}><Li>Kontakt</Li></A>
+                        <A to="/createUser" onClick={() => { window.location = "/createUser" }}><Li>Utwórz pracownika</Li></A>
+                        <A to="/showAll" onClick={() => { window.location = "/showAll" }}><Li>Pokaż wszystkich</Li></A>
+                    </Ul>
+
+                ) : role === 'employee' ? (
+                    <Ul>
+                        <A to="/receptionHours" onClick={() => { window.location = "/receptionHours" }}><Li>Godziny przyjęć</Li></A>
+                        <A to="/contact" onClick={() => { window.location = "/contact" }}><Li>Kontakt</Li></A>
+                        <A to="/createExamination" onClick={() => { window.location = "/createExamination" }}><Li>Utwórz badanie</Li></A>
+                    </Ul>
+                ) : role === 'doctor'?(
+                    <Ul>
+                        <A to="/receptionHours" onClick={() => { window.location = "/receptionHours" }}><Li>Godziny przyjęć</Li></A>
+                        <A to="/contact" onClick={() => { window.location = "/contact" }}><Li>Kontakt</Li></A>
+                        <A to="/changeHours" onClick={() => { window.location = "/changeHours" }}><Li>Zmień godziny</Li></A>
+                        <A to="/endExamination" onClick={() => { window.location = "/endExamination" }}><Li>Zakończ wizytę</Li></A>
+                    </Ul>
+                ):(
+                    <Ul>
                         
-                    </Navigation>
-                
-           
+                    </Ul>
+                )
+                    
+                }
+                {isLogged ?
+                    <Ul><A to="/logout" onClick={() => { localStorage.removeItem("token"); window.location = "/" }}><Li>Wyloguj</Li></A> </Ul> :
+
+                    <Ul>
+                        <A to="/receptionHours" onClick={() => { window.location = "/receptionHours" }}><Li>Godziny przyjęć</Li></A>
+                        <A to="/contact" onClick={() => { window.location = "/contact" }}><Li>Kontakt</Li></A>
+                        <A to="/login" onClick={() => { window.location = "/login" }}><Li>Zaloguj</Li></A>
+                        <A to="/register" onClick={() => { window.location = "/register" }}><Li>Zarejestruj</Li></A>
+                    </Ul>
+                }
+
+
+            </Navigation>
+
+
         );
     }
 }
@@ -48,7 +101,7 @@ const Navigation = styled.nav`
 
 `;
 const Li = styled.li`
-    margin: 0ex 1ex;
+    margin: 1ex 1ex;
     list-style: none;
     padding : 1ex;
     background-color: #4a515f;
