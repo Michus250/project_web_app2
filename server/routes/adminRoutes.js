@@ -39,7 +39,7 @@ router.put('/createEmployee', async (req, res) => {
     }
     await user.save();
 
-    return res.json({ message: 'Rola użytkownika została zaktualizowana', workingHours: user.workingHours });
+    return res.json({ message: 'Rola użytkownika została zaktualizowana' });
   } catch (error) {
     return res.status(500).json({ message: 'Wystąpił błąd serwera' });
   }

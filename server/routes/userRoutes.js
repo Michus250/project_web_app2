@@ -39,6 +39,19 @@ router.post("/register", async (req, res) => {
         res.status(500).send({ message: "Internal Server Error" })
     }
 });
+router.get("/receptionHours", async (req, res) => {
+    try {
+      const doctors = await User.find({ role: "doctor" });
+      if (doctors.length === 0) {
+        return res.status(404).json({ message: 'Nie znaleziono żadnych lekarzy' });
+      }
+      return res.json({ doctors });
+    } catch (error) {
+      return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+    }
+  });
+  
+  
 
 router.get('/users', async (req, res) => {
     try {

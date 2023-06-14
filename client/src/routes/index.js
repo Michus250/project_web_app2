@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import ShowAll from '../components/admin/showAll';
 import CreateEmployee from '../components/admin/createEmployee';
+import ReceptionHours from '../components/receptionHours';
 
 const UserRoutes = () => {
     const token = localStorage.getItem("token");
@@ -25,7 +26,7 @@ const UserRoutes = () => {
             {role === 'user' ? (
                 <Routes>
                     <Route path="/logout" ></Route>
-                    <Route path="/receptionHours" element={<h2>receptionHours</h2>}></Route>
+                    <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                     <Route path="/contact" element={<h2>contact</h2>}></Route>
                     <Route path="/createVisit" element={<h2>createVisit</h2>}></Route>
                     <Route path="/userExamination" element={<h2>userExamination</h2>}></Route>
@@ -36,7 +37,7 @@ const UserRoutes = () => {
             ) : role === 'admin' ? (
                 <Routes>
                     <Route path="/logout" ></Route>
-                    <Route path="/receptionHours" element={<h2>receptionHours</h2>}></Route>
+                    <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                     <Route path="/contact" element={<h2>contact</h2>}></Route>
                     <Route path="/createEmployee" element={<CreateEmployee></CreateEmployee>}></Route>
                     <Route path="/showAll" element={<ShowAll></ShowAll>}></Route>
@@ -47,7 +48,7 @@ const UserRoutes = () => {
             ): role === 'employee' ? (
                 <Routes>
                     <Route path="/logout" ></Route>
-                    <Route path="/receptionHours" element={<h2>receptionHours</h2>}></Route>
+                    <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                     <Route path="/contact" element={<h2>contact</h2>}></Route>
                     <Route path="/createExamination" element={<h2>createExamination</h2>}></Route>
                     <Route path="/" element={<Home></Home>}></Route>
@@ -57,7 +58,7 @@ const UserRoutes = () => {
                 : role === 'doctor' ? (
                     <Routes>
                         <Route path="/logout" ></Route>
-                        <Route path="/receptionHours" element={<h2>receptionHours</h2>}></Route>
+                        <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                         <Route path="/contact" element={<h2>contact</h2>}></Route>
                         <Route path="/changeHours" element={<h2>changeHours</h2>}></Route>
                         <Route path="/endExamination" element={<h2>endExamination</h2>}></Route>
@@ -67,7 +68,7 @@ const UserRoutes = () => {
                     </Routes> )
                 : (
                     <Routes>
-                        <Route path="/receptionHours" element={<h2>receptionHours</h2>}></Route>
+                        <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                         <Route path="/contact" element={<h2>contact</h2>}></Route>
                         <Route path="/register" element={<Signup></Signup>}></Route>
                         <Route path="/login" element={<Login></Login>} ></Route>
