@@ -41,7 +41,7 @@ class Nav extends React.Component {
                     <Ul>
                         <A to="/receptionHours" onClick={() => { window.location = "/receptionHours" }}><Li>Godziny przyjęć</Li></A>
                         <A to="/contact" onClick={() => { window.location = "/contact" }}><Li>Kontakt</Li></A>
-                        <A to="/createUser" onClick={() => { window.location = "/createUser" }}><Li>Utwórz pracownika</Li></A>
+                        <A to="/createEmployee" onClick={() => { window.location = "/createEmployee" }}><Li>Utwórz pracownika</Li></A>
                         <A to="/showAll" onClick={() => { window.location = "/showAll" }}><Li>Pokaż wszystkich</Li></A>
                     </Ul>
 

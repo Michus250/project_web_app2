@@ -44,8 +44,24 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    workingHours:{
+        type: mongoose.Schema.Types.Mixed,
+        
+    }
     
 });
+userSchema.methods.addWorkingHours = function () {
+    this.workingHours = {
+      Monday: { open: '09:00', close: '17:00', isWorking: true },
+      Tuesday: { open: '09:00', close: '17:00', isWorking: true },
+      Wednesday: { open: '09:00', close: '17:00', isWorking: true },
+      Thursday: { open: '09:00', close: '17:00', isWorking: true },
+      Friday: { open: '09:00', close: '17:00', isWorking: true },
+      Saturday: { open: '09:00', close: '14:00', isWorking: true },
+      Sunday: { open: '-', close: '-', isWorking: false }
+    };
+  };
+
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id, role:this.role }, process.env.JWTPRIVATEKEY, {
         expiresIn: "7d",

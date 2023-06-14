@@ -4,6 +4,7 @@ import Home from '../components/home';
 import { Route, Routes } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import ShowAll from '../components/admin/showAll';
+import CreateEmployee from '../components/admin/createEmployee';
 
 const UserRoutes = () => {
     const token = localStorage.getItem("token");
@@ -37,7 +38,7 @@ const UserRoutes = () => {
                     <Route path="/logout" ></Route>
                     <Route path="/receptionHours" element={<h2>receptionHours</h2>}></Route>
                     <Route path="/contact" element={<h2>contact</h2>}></Route>
-                    <Route path="/createUser" element={<h2>createUser</h2>}></Route>
+                    <Route path="/createEmployee" element={<CreateEmployee></CreateEmployee>}></Route>
                     <Route path="/showAll" element={<ShowAll></ShowAll>}></Route>
                     <Route path="/" element={<Home></Home>}></Route>
                     <Route path="*" element={<h2>Alee</h2>}></Route>

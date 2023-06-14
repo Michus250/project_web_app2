@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { format } from 'date-fns';
+import styled from "styled-components";
+
 
 const ShowAll = () => {
     const [users, setData] = useState([]);
@@ -27,10 +30,10 @@ const ShowAll = () => {
 
 
     return (
-        <div class="container">
+        <Div className="container">
 
 
-            <table class="table">
+            <table className="table table-dark">
                 <thead>
                     <tr>
                         <th scope="col">Imię</th>
@@ -52,17 +55,20 @@ const ShowAll = () => {
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.address}</td>
-                            <td>{user.phoneNumber}</td>
+                            <td>{user.phone}</td>
                             <td>{user.personalId}</td>
                             <td>{user.email}</td>
-                            <td>{user.status}</td>
-                            <td>{user.dateOfBirth}</td>
+                            <td>{user.role}</td>
+                            <td>{format(new Date(user.dateOfBirth),'dd-MM-yyyy')}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+        </Div>
     )
 
 }
+const Div = styled.div`
+    margin-top: 1ex;
+`
 export default ShowAll;
