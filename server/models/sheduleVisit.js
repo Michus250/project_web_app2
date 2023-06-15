@@ -1,23 +1,22 @@
 const mongoose = require('mongoose');
 
-sheludeVisitSchema = mongoose.Schema({
+const scheduleVisitSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref:'User',
         required: true
     },
     doctor_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref:'User',
         required: true
     },
-   
     date: {
         type: mongoose.Schema.Types.Date,
         required: true
-
-    },
-    
+    }
 });
 
-const SheludeVisit = mongoose.model("SheludeVisit", sheludeVisitSchema);
+const ScheduleVisit = mongoose.model("ScheduleVisit", scheduleVisitSchema);
 
-module.exports = {SheludeVisit}
+module.exports = ScheduleVisit;

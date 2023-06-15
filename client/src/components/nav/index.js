@@ -96,6 +96,7 @@ const Navigation = styled.nav`
     display : flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 2ex;
     
     
     

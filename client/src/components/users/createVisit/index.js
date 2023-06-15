@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-const daysPl = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
+const dayPl = ["Niedziela", "Poniedziałek", "Wtorek", "Sroda", "Czwartek", "Piątek", "Sobota"];
+
 
 function generateTimeSlots(date, open, close, excludedHours = []) {
   const timeSlots = [];
@@ -85,14 +86,10 @@ const CreateVisit = () => {
         setUser(res.doctors);
         setDoctor(res.doctors[0]);
 
-        let date = new Date();
-        date.setDate(date.getDate() + 1);
-        // console.log(date);
+       
+       
 
-        const day = "Monday";
-        const test = res.doctors[0].workingHours[day];
-        // console.log(test);
-
+      
         let timeSlotsArray = [];
         for (let i = 1; i < 7; i++) {
           let currentDate = new Date();
@@ -132,6 +129,29 @@ const CreateVisit = () => {
 
   }, []);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const selectedHour = event.target.hour.value;
+    console.log(selectedHour);
+    const token = localStorage.getItem("token");
+    
+    try {
+      const response = await axios.post("createVisit", {
+        doctor_id: doctor._id,
+        token: token,
+        date: selectedHour,
+      });
+
+      
+      console.log(response.data);
+    } catch (error) {
+      
+      console.log(error);
+    }
+  };
+
+
 
 
 
@@ -159,7 +179,7 @@ const CreateVisit = () => {
                     <tr className="text-center">
                       <th scope="col-" className="align-middle" >Data</th>
                       <th scope="col-auto" className="d-flex justify-content-start" >Godzina</th>
-                      {/* <th scope="col" className="align-middle"></th> */}
+                     
                     </tr>
                   </thead>
 
@@ -169,12 +189,12 @@ const CreateVisit = () => {
                       <tr className="text-center" >
 
                         <td className="align-middle col-4">
-                          {item[0].toLocaleDateString("pl-PL")}
+                        {dayPl[item[0].getDay()]} {item[0].toLocaleDateString("pl-PL")} 
 
                         </td>
                         <td className="align-middle col-4" >
-                          <form className="d-flex justify-content-between">
-                          <select className="custom-select text-white bg-dark border-dark col-4 ">
+                          <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
+                          <select className="custom-select text-white bg-dark border-dark col-4 " name="hour">
                                 {item.map((hour)=>(
                                   <option value={hour}>{hour.toLocaleTimeString("pl-PL")}</option>
                                 ))}

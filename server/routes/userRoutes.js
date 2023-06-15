@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 
 
-const { User, validate } = require("../models/user")
+const { User, validate } = require("../models/user");
+const  ScheduleVisit  = require("../models/sheduleVisit");
 
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
@@ -41,17 +43,30 @@ router.post("/register", async (req, res) => {
 });
 router.get("/receptionHours", async (req, res) => {
     try {
-      const doctors = await User.find({ role: "doctor" });
-      if (doctors.length === 0) {
-        return res.status(404).json({ message: 'Nie znaleziono żadnych lekarzy' });
-      }
-      return res.json({ doctors });
+        const doctors = await User.find({ role: "doctor" });
+        if (doctors.length === 0) {
+            return res.status(404).json({ message: 'Nie znaleziono żadnych lekarzy' });
+        }
+        return res.json({ doctors });
     } catch (error) {
-      return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+        return res.status(500).json({ message: 'Wystąpił błąd serwera' });
     }
-  });
-  
-  
+});
+router.post("/createVisit", async (req, res) => {
+    console.log(req.body);
+    try {
+        
+        const token = jwt.decode(req.body.token);
+        console.log(token._id);
+        await new ScheduleVisit({ ...req.body, user_id: token._id }).save();
+        res.status(201).send({ message: "Visit created successfully" })
+    }
+    catch (error) {
+        res.status(500).send({ message: "Internal Server Error" })
+    }
+});
+
+
 
 router.get('/users', async (req, res) => {
     try {
@@ -62,7 +77,7 @@ router.get('/users', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 })
-router.get('/logout', async (req,res)=>{
+router.get('/logout', async (req, res) => {
     console.log(localStorage.getItem("token"));
     localStorage.removeItem("token");
 })
