@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import ShowAll from '../components/admin/showAll';
 import CreateEmployee from '../components/admin/createEmployee';
 import ReceptionHours from '../components/receptionHours';
+import CreateVisit from '../components/users/createVisit';
 
 const UserRoutes = () => {
     const token = localStorage.getItem("token");
@@ -28,7 +29,7 @@ const UserRoutes = () => {
                     <Route path="/logout" ></Route>
                     <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                     <Route path="/contact" element={<h2>contact</h2>}></Route>
-                    <Route path="/createVisit" element={<h2>createVisit</h2>}></Route>
+                    <Route path="/createVisit" element={<CreateVisit></CreateVisit>}></Route>
                     <Route path="/userExamination" element={<h2>userExamination</h2>}></Route>
                     <Route path="/" element={<Home></Home>}></Route>
                     <Route path="*" element={<h2>Alee</h2>}></Route>

@@ -69,7 +69,7 @@ const CreateEmployee = () => {
                                     </select>
                                     <button
                                         type="submit"
-                                        className="btn btn-primary"
+                                        className="btn btn-secondary"
                                         id={user.id}
                                         name="changeButton"
                                         value={user.id}
