@@ -39,104 +39,120 @@ const Signup = () => {
         }
     }
     return (
-        <div >
-            <div >
-                <div >
-                    <h1>Welcome Back</h1>
-                    <Link to="/login">
-                        <button type="button"
-                            >
-                            Sing in
-                        </button>
-                    </Link>
+
+
+        <div className="container">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+
+                <div className="card text-white bg-dark mb-3">
+                    <form onSubmit={handleSubmit}>
+                        <div className="card-header">Zarejestruj</div>
+                        <div className="card-body">
+                        <div className="mb-3">
+                            <input
+                                type="text"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Imię"
+                                name="firstName"
+                                onChange={handleChange}
+                                value={data.firstName}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="text"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Nazwisko"
+                                name="lastName"
+                                onChange={handleChange}
+                                value={data.lastName}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="text"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Telefon"
+                                name="phone"
+                                onChange={handleChange}
+                                value={data.phone}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="text"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Pesel"
+                                name="personalId"
+                                onChange={handleChange}
+                                value={data.personalId}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="text"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Adres"
+                                name="address"
+                                onChange={handleChange}
+                                value={data.address}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="date"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Date of Birth"
+                                name="dateOfBirth"
+                                onChange={handleChange}
+                                value={data.dateOfBirth}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="email"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Email"
+                                name="email"
+                                onChange={handleChange}
+                                value={data.email}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <input
+                                type="password"
+                                className="form-control text-white bg-dark border-white"
+                                placeholder="Hasło"
+                                name="password"
+                                onChange={handleChange}
+                                value={data.password}
+                                required
+                            />
+                        </div>
+                        {error && <div className="text-danger">{error}</div>}
+                        <div className="text-center">
+                            <button type="submit" className="btn btn-secondary" >
+                                Zarejestruj
+                            </button>
+                            <br></br>
+
+                        </div>
+                        </div>
+                    </form>
+                    </div>
                 </div>
-                <div ></div>
-                <form 
-                    onSubmit={handleSubmit}>
-                    <h1>Create Account</h1>
-                    <input
-                        type="text"
-                        placeholder="First Name"
-                        name="firstName"
-                        onChange={handleChange}
-                        value={data.firstName}
-                        required
-                        
-                    /><br></br>
-                    <input
-                        type="text"
-                        placeholder="Last Name"
-                        name="lastName"
-                        onChange={handleChange}
-                        value={data.lastName}
-                        required
-                        
-                    /><br></br>
-                    <input
-                        type="text"
-                        placeholder="phone"
-                        name="phone"
-                        onChange={handleChange}
-                        value={data.phone}
-                        required
-                        
-                    /><br></br>
-                    <input
-                        type="text"
-                        placeholder="personalId"
-                        name="personalId"
-                        onChange={handleChange}
-                        value={data.personalId}
-                        required
-                        
-                    /><br></br>
-                     <input
-                        type="text"
-                        placeholder="address"
-                        name="address"
-                        onChange={handleChange}
-                        value={data.address}
-                        required
-                        
-                    /><br></br>
-                    <input
-                        type="date"
-                        placeholder="dateOfBirth"
-                        name="dateOfBirth"
-                        onChange={handleChange}
-                        value={data.dateOfBirth}
-                        required
-                        
-                    /><br></br>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                        onChange={handleChange}
-                        value={data.email}
-                        required
-                        
-                    /><br></br>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        onChange={handleChange}
-                        value={data.password}
-                        required
-                        
-                    /><br></br>
-                    
-                    {error && <div
-                       >{error}</div>}
-                    <button type="submit"
-                        >
-                        Sing Up
-                    </button>
-                </form>
             </div>
         </div>
+
     )
-    
+
 };
 export default Signup
