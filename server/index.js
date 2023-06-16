@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
 const auth = require('./routes/auth');
 
 
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(auth);
 app.use(adminRoutes);
-
+app.use(doctorRoutes);
 
 
 app.listen(5000, () =>console.log('Server started'));

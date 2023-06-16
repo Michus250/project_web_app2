@@ -86,10 +86,6 @@ const CreateVisit = () => {
         setUser(res.doctors);
         setDoctor(res.doctors[0]);
 
-       
-       
-
-      
         let timeSlotsArray = [];
         for (let i = 1; i < 7; i++) {
           let currentDate = new Date();
@@ -108,10 +104,6 @@ const CreateVisit = () => {
         }
         console.log(timeSlotsArray);
         setDates(timeSlotsArray);
-
-
-
-
 
       } catch (error) {
         if (
@@ -196,7 +188,10 @@ const CreateVisit = () => {
                           <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
                           <select className="custom-select text-white bg-dark border-dark col-4 " name="hour">
                                 {item.map((hour)=>(
-                                  <option value={hour}>{hour.toLocaleTimeString("pl-PL")}</option>
+                                  <option value={hour}>{hour.toLocaleTimeString("pl-PL",{
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                  })}</option>
                                 ))}
                             </select>
                             <button type="submit" className="btn btn-secondary" >Umów</button>

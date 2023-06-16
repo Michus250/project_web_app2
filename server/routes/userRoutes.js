@@ -52,6 +52,25 @@ router.get("/receptionHours", async (req, res) => {
         return res.status(500).json({ message: 'Wystąpił błąd serwera' });
     }
 });
+
+router.get("/createVisit"), async (req,res) =>{
+   
+    try{
+        const doctors = await User.find({ role: "doctor" });
+        const visits = await ScheduleVisit.find();
+        if (doctors.length === 0) {
+            return res.status(404).json({ message: 'Nie znaleziono żadnych lekarzy' });
+        }
+        if(visits.length === 0){
+            return res.json({doctors,visits: []});
+        }
+        
+        return res.json({doctors,visits});
+    }
+    catch (error) {
+        return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+    }
+}
 router.post("/createVisit", async (req, res) => {
     console.log(req.body);
     try {

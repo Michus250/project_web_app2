@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-userExaminationSchema = mongoose.Schema({
+const userExaminationSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
@@ -16,12 +16,16 @@ userExaminationSchema = mongoose.Schema({
     price: {
         type: mongoose.Schema.Types.Decimal128,
         required: true
-
+    },
+    date:{
+        type: Date,
+        required: true
     },
     description: {
         type: String
     }
-})
+});
+
 const UserExamination = mongoose.model("UserExamination", userExaminationSchema);
 
-module.exports = {UserExamination}
+module.exports = UserExamination;
