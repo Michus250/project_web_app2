@@ -32,6 +32,7 @@ const Navigation = () => {
         <Nav className="mr-auto">
           {role === 'user' && (
             <>
+              <Nav.Link as={Link} to="/">O nas</Nav.Link>
               <Nav.Link as={Link} to="/receptionHours">Godziny przyjęć</Nav.Link>
               <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={Link} to="/createVisit">Umów wizytę</Nav.Link>
@@ -40,6 +41,7 @@ const Navigation = () => {
           )}
           {role === 'admin' && (
             <>
+              <Nav.Link as={Link} to="/">O nas</Nav.Link>
               <Nav.Link as={Link} to="/receptionHours">Godziny przyjęć</Nav.Link>
               <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={Link} to="/createEmployee">Utwórz pracownika</Nav.Link>
@@ -48,6 +50,7 @@ const Navigation = () => {
           )}
           {role === 'employee' && (
             <>
+              <Nav.Link as={Link} to="/">O nas</Nav.Link>
               <Nav.Link as={Link} to="/receptionHours">Godziny przyjęć</Nav.Link>
               <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={Link} to="/createExamination">Utwórz badanie</Nav.Link>
@@ -55,6 +58,7 @@ const Navigation = () => {
           )}
           {role === 'doctor' && (
             <>
+              <Nav.Link as={Link} to="/">O nas</Nav.Link>
               <Nav.Link as={Link} to="/receptionHours">Godziny przyjęć</Nav.Link>
               <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={Link} to="/changeHours">Zmień godziny</Nav.Link>
@@ -67,6 +71,7 @@ const Navigation = () => {
             <Nav.Link as={Link} to="/logout" onClick={handleLogout}>Wyloguj</Nav.Link>
           ) : (
             <>
+              <Nav.Link as={Link} to="/">O nas</Nav.Link>
               <Nav.Link as={Link} to="/receptionHours">Godziny przyjęć</Nav.Link>
               <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={Link} to="/login">Zaloguj</Nav.Link>

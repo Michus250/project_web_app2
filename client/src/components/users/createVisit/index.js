@@ -160,11 +160,11 @@ const CreateVisit = () => {
           <div className="col-md-8">
             <select onChange={handleSelectChange} className="form-select text-white bg-dark border-dark ">
               {users.map((user, key) => (
-                <option value={key}>{`Dr ${user.firstName} ${user.lastName}`}</option>
+                <option value={key}>{`dr. ${user.firstName} ${user.lastName}`}</option>
               ))}
             </select>
             <div className="card text-white bg-dark mb-3">
-              <div className="card-header">{`Godziny przyjęć Dr ${doctor.firstName} ${doctor.lastName}`}</div>
+              <div className="card-header">{`Godziny przyjęć dr. ${doctor.firstName} ${doctor.lastName}`}</div>
               <div className="card-body">
                 <table className="table table-dark">
                   <thead>

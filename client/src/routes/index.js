@@ -8,6 +8,7 @@ import CreateEmployee from '../components/admin/createEmployee';
 import ReceptionHours from '../components/receptionHours';
 import CreateVisit from '../components/users/createVisit';
 import EndExamination    from '../components/doctor/endExamination'
+import UserExamination from '../components/users/userExamination';
 
 const UserRoutes = () => {
     const token = localStorage.getItem("token");
@@ -31,7 +32,7 @@ const UserRoutes = () => {
                     <Route path="/receptionHours" element={<ReceptionHours></ReceptionHours>}></Route>
                     <Route path="/contact" element={<h2>contact</h2>}></Route>
                     <Route path="/createVisit" element={<CreateVisit></CreateVisit>}></Route>
-                    <Route path="/userExamination" element={<h2>userExamination</h2>}></Route>
+                    <Route path="/userExamination" element={<UserExamination></UserExamination>}></Route>
                     <Route path="/" element={<Home></Home>}></Route>
                     <Route path="*" element={<h2>Alee</h2>}></Route>
 

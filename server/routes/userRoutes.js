@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const { User, validate } = require("../models/user");
 const  ScheduleVisit  = require("../models/sheduleVisit");
+const UserExamination = require("../models/usersExamination");
 
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
@@ -41,6 +42,8 @@ router.post("/register", async (req, res) => {
         res.status(500).send({ message: "Internal Server Error" })
     }
 });
+
+
 router.get("/receptionHours", async (req, res) => {
     try {
         const doctors = await User.find({ role: "doctor" });
@@ -84,6 +87,37 @@ router.post("/createVisit", async (req, res) => {
         res.status(500).send({ message: "Internal Server Error" })
     }
 });
+
+router.get("/userExamination", async (req, res) => {
+    try {
+
+        const authHeader = req.headers['authorization'];
+        let decodedToken;
+        if (authHeader) {
+            const token = authHeader.split(' ')[1];
+            decodedToken = jwt.decode(token);
+
+        }
+        const visits = await ScheduleVisit.find({ user_id: decodedToken._id }).populate('user_id').populate('doctor_id');
+        const historyVisits = await UserExamination.find({ user_id: decodedToken._id }).populate('user_id').populate('doctor_id');
+        
+        if (visits.length === 0 && historyVisits.length === 0) {
+            return res.json({ visits: [], historyVisits: [] });
+        }
+        if (visits.length === 0 && historyVisits.length > 0) {
+            return res.json({ visits: [], historyVisits });
+        }
+        if (visits.length > 0 && historyVisits.length === 0) {
+            return res.json({ visits, historyVisits: [] });
+        }
+
+        return res.json({ visits, historyVisits });
+    } catch (error) {
+        return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+    }
+});
+
+
 
 
 

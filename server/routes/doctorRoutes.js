@@ -44,6 +44,7 @@ router.post("/endExamination", async (req, res) => {
         
         price = mongoose.Types.Decimal128.fromString(result.toString());
         
+        
         const visit = await ScheduleVisit.findOne({ _id: req.body.visitId });
        
         if (!visit) {

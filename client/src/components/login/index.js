@@ -1,6 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+
 
 
 const Login = () => {
@@ -27,49 +27,7 @@ const Login = () => {
         }
     }
     return (
-        // <div >
-        //     <div >
-        //         <div >
-        //             <form 
-        //                 onSubmit={handleSubmit}>
-        //                 <h1>Login to Your Account</h1>
-        //                 <input
-        //                     type="email"
-        //                     placeholder="Email"
-        //                     name="email"
-        //                     onChange={handleChange}
-        //                     value={data.email}
-        //                     required
-
-        //                 /><br></br>
-        //                 <input
-        //                     type="password"
-        //                     placeholder="Password"
-        //                     name="password"
-        //                     onChange={handleChange}
-        //                     value={data.password}
-        //                     required
-
-        //                 /><br></br>
-        //                 {error && <div
-        //                   >{error}</div>}
-        //                 <button type="submit"
-        //                     >
-        //                     Sing In
-        //                 </button>
-        //             </form>
-        //         </div>
-        //         <div >
-        //             <h1>New Here ?</h1>
-        //             <Link to="/register">
-        //                 <button type="button"
-        //                     >
-        //                     Sing Up
-        //                 </button>
-        //             </Link>
-        //         </div>
-        //     </div>
-        // </div>
+       
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-md-6">

@@ -33,7 +33,7 @@ const ReceptionHours = () => {
           <div className="row justify-content-center">
             <div className="col-md-8">
               <div className="card text-white bg-dark mb-3">
-                <div className="card-header ">Godziny przyjęć Dr {user.firstName} {user.lastName}</div>
+                <div className="card-header ">Godziny przyjęć dr. {user.firstName} {user.lastName}</div>
                 <div className="card-body">
                   <table className="table table-dark">
                     <thead>
