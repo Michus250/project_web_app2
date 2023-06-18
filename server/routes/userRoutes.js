@@ -56,6 +56,23 @@ router.get("/receptionHours", async (req, res) => {
     }
 });
 
+
+router.get("/createVisit", async (req, res) => {
+    try {
+        const doctors = await User.find({ role: "doctor" });
+        const doctors_id = doctors.map(doctor =>{return doctor._id.toString()});
+        
+        const sheduleVisit = await ScheduleVisit.find({doctor_id:{$in : doctors_id}});
+        
+        if (doctors.length === 0) {
+            return res.status(404).json({ message: 'Nie znaleziono żadnych lekarzy' });
+        }
+        return res.json({ doctors, sheduleVisit });
+    } catch (error) {
+        return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+    }
+});
+
 router.get("/createVisit"), async (req,res) =>{
    
     try{

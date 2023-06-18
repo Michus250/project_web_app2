@@ -70,6 +70,36 @@ router.post("/endExamination", async (req, res) => {
     }
 });
 
+router.get("/changeHours", async (req, res) => {
+    try {
+
+        const authHeader = req.headers['authorization'];
+        let decodedToken;
+        if (authHeader) {
+            const token = authHeader.split(' ')[1];
+            decodedToken = jwt.decode(token);
+
+        }
+        const doctor = await User.findOne({ _id: decodedToken._id });
+        
+
+        return res.json({ doctor });
+    } catch (error) {
+        return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+    }
+});
+
+router.put("/changeHours", async (req, res) => {
+    try {
+
+        await User.findByIdAndUpdate(req.body._id,req.body,{new:true});
+
+        return res.json({ message:"Zaktualizowano" });
+    } catch (error) {
+        return res.status(500).json({ message: 'Wystąpił błąd serwera' });
+    }
+});
+
 
 
 

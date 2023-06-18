@@ -43,6 +43,16 @@ function generateTimeSlots(date, open, close, excludedHours = []) {
   return timeSlots;
 }
 
+function getBlockedHours(id_doctor, date, scheduleVisits) {
+  const formattedDate = date.toISOString().slice(0, 10); // Formatuje datę do postaci "YYYY-MM-DD"
+
+  const blockedHours = scheduleVisits
+    .filter(visit => visit.doctor_id.toString() === id_doctor && visit.date.toISOString().slice(0, 10) === formattedDate)
+    .map(visit => visit.date.toLocaleTimeString("pl-PL", { hour: "numeric", minute: "numeric" }));
+
+  return blockedHours;
+}
+
 
 
 
@@ -52,6 +62,7 @@ const CreateVisit = () => {
   const [users, setUser] = useState([]);
   const [doctor, setDoctor] = useState({});
   const [dates, setDates] = useState([]);
+  const [blockedDates,setBlockedDates] = useState([]);
 
   const handleSelectChange = (event) => {
     const selectedDoctorKey = parseInt(event.target.value);
@@ -80,23 +91,29 @@ const CreateVisit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = "receptionHours";
+        const url = "createVisit";
         const { data: res } = await axios.get(url);
         // console.log(res.doctors);
         setUser(res.doctors);
         setDoctor(res.doctors[0]);
+        setBlockedDates(res.sheduleVisit);
+        console.log(res.sheduleVisit);
 
         let timeSlotsArray = [];
+        
         for (let i = 1; i < 7; i++) {
+          
           let currentDate = new Date();
           currentDate.setDate(currentDate.getDate() + i);
           let day = currentDate.getDay();
           day = days[day];
 
           let workingHoursDay = res.doctors[0].workingHours[day];
+          // let blockedHours = getBlockedHours(res.doctors[0]._id,currentDate,res.sheduleVisit);
+          // console.log(blockedHours);
 
           if (workingHoursDay.isWorking === true) {
-
+            
             const timeSlots = generateTimeSlots(currentDate, workingHoursDay.open, workingHoursDay.close);
 
             timeSlotsArray.push(timeSlots);

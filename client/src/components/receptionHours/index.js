@@ -1,33 +1,42 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
 
+const translationArray = {
+  Monday: 'Poniedziałek',
+  Tuesday: 'Wtorek',
+  Wednesday: 'Środa',
+  Thursday: 'Czwartek',
+  Friday: 'Piątek',
+  Saturday: 'Sobota',
+  Sunday: 'Niedziela'
+};
 
 const ReceptionHours = () => {
-    const [users, setUser] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const url = "receptionHours";
-                const { data: res } = await axios.get(url);
-                setUser(res.doctors);
-                console.log(res.doctors);
-            } catch (error) {
-                if (
-                    error.response &&
-                    error.response.status >= 400 &&
-                    error.response.status <= 500
-                ) {
-                    console.log(error.response.data.message);
-                }
-            }
-        };
+  const [users, setUser] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = "receptionHours";
+        const { data: res } = await axios.get(url);
+        setUser(res.doctors);
+        console.log(res.doctors);
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status <= 500
+        ) {
+          console.log(error.response.data.message);
+        }
+      }
+    };
 
 
-        fetchData();
-    }, []);
-    return (
-        <div>
-     
+    fetchData();
+  }, []);
+  return (
+    <div>
+
       {users.map((user) => (
         <div className="container">
           <div className="row justify-content-center">
@@ -44,19 +53,25 @@ const ReceptionHours = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {Object.entries(user.workingHours).map(([key, item]) => (
-                        <tr className="text-center" key={key}>
-                          <td className="align-middle">
-                            {key}
-                          </td>
-                          <td className="align-middle col-3">
-                            {item.open}
-                          </td>
-                          <td className="align-middle col-3">
-                            {item.close}
-                          </td>
-                        </tr>
-                      ))}
+                      {Object.entries(user.workingHours).map(([key, item]) => {
+                        if (item.isWorking) {
+                          return (
+                            <tr className="text-center" key={key}>
+                              <td className="align-middle">
+                                {translationArray[key]}
+                              </td>
+                              <td className="align-middle col-3">
+                                {item.open}
+                              </td>
+                              <td className="align-middle col-3">
+                                {item.close}
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -65,9 +80,9 @@ const ReceptionHours = () => {
           </div>
           <br></br>
         </div>
-        
+
       ))}
     </div>
-    );
+  );
 }
 export default ReceptionHours;
