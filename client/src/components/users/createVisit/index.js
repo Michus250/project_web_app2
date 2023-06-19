@@ -7,24 +7,39 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 const dayPl = ["Niedziela", "Poniedziałek", "Wtorek", "Sroda", "Czwartek", "Piątek", "Sobota"];
 
 
-function generateTimeSlots(date, open, close, excludedHours = []) {
+
+function generateTimeSlots(date, open, close, scheduleVisits = [], id_doctor) {
+
   const timeSlots = [];
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   const formattedDate = `${year}-${month}-${day}`;
+  const datePl = date.toLocaleDateString("pl-PL");
+
   const startTime = new Date(`${formattedDate} ${open}`);
   const endTime = new Date(`${formattedDate} ${close}`);
   const halfHour = 30 * 60 * 1000;
-
-
-  const excludedTimes = excludedHours.map((excludedTime) => {
-    const formattedTime = excludedTime.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
+  const excludedTimes = scheduleVisits
+    .filter(visit => {
+      let visitDate = new Date(visit.date);
+      visitDate = visitDate.toLocaleDateString("pl-Pl");
+      
+      const visitDoctorId = visit.doctor_id;
+     
+      return visitDate === datePl && visitDoctorId === id_doctor;
+    })
+    .map(visit => {
+      let visitDate = new Date(visit.date);
+      const formattedTime = visitDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return formattedTime;
     });
-    return formattedTime;
-  });
+
+
+
 
   let currentTime = startTime;
   while (currentTime < endTime) {
@@ -43,15 +58,8 @@ function generateTimeSlots(date, open, close, excludedHours = []) {
   return timeSlots;
 }
 
-function getBlockedHours(id_doctor, date, scheduleVisits) {
-  const formattedDate = date.toISOString().slice(0, 10); // Formatuje datę do postaci "YYYY-MM-DD"
 
-  const blockedHours = scheduleVisits
-    .filter(visit => visit.doctor_id.toString() === id_doctor && visit.date.toISOString().slice(0, 10) === formattedDate)
-    .map(visit => visit.date.toLocaleTimeString("pl-PL", { hour: "numeric", minute: "numeric" }));
 
-  return blockedHours;
-}
 
 
 
@@ -62,28 +70,48 @@ const CreateVisit = () => {
   const [users, setUser] = useState([]);
   const [doctor, setDoctor] = useState({});
   const [dates, setDates] = useState([]);
-  const [blockedDates,setBlockedDates] = useState([]);
+  const [blockedDates, setBlockedDates] = useState([]);
 
   const handleSelectChange = (event) => {
     const selectedDoctorKey = parseInt(event.target.value);
     setDoctor(users[selectedDoctorKey]);
     let timeSlotsArray = [];
-        for (let i = 1; i < 7; i++) {
-          let currentDate = new Date();
-          currentDate.setDate(currentDate.getDate() + i);
-          let day = currentDate.getDay();
-          day = days[day];
+    // for (let i = 1; i < 7; i++) {
+    //   let currentDate = new Date();
+    //   currentDate.setDate(currentDate.getDate() + i);
+    //   let day = currentDate.getDay();
+    //   day = days[day];
 
-          let workingHoursDay = users[selectedDoctorKey].workingHours[day];
+    //   let workingHoursDay = users[selectedDoctorKey].workingHours[day];
 
-          if (workingHoursDay.isWorking === true) {
+    //   if (workingHoursDay.isWorking === true) {
 
-            const timeSlots = generateTimeSlots(currentDate, workingHoursDay.open, workingHoursDay.close);
+    //     const timeSlots = generateTimeSlots(currentDate, workingHoursDay.open, workingHoursDay.close,);
 
-            timeSlotsArray.push(timeSlots);
-          }
-        }
-        setDates(timeSlotsArray);
+    //     timeSlotsArray.push(timeSlots);
+    //   }
+    // }
+    // setDates(timeSlotsArray);
+    for (let i = 1; i < 7; i++) {
+
+      let currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + i);
+      let day = currentDate.getDay();
+      day = days[day];
+
+      let workingHoursDay = users[selectedDoctorKey].workingHours[day];
+      let timeSlots = [];
+
+      if (workingHoursDay.isWorking === true) {
+        
+        timeSlots = generateTimeSlots(currentDate, workingHoursDay.open, workingHoursDay.close, blockedDates, users[selectedDoctorKey]._id);
+
+        timeSlotsArray.push(timeSlots);
+      }
+    }
+
+    setDates(timeSlotsArray);
+
 
 
   };
@@ -97,29 +125,28 @@ const CreateVisit = () => {
         setUser(res.doctors);
         setDoctor(res.doctors[0]);
         setBlockedDates(res.sheduleVisit);
-        console.log(res.sheduleVisit);
 
+       
         let timeSlotsArray = [];
-        
+
         for (let i = 1; i < 7; i++) {
-          
+
           let currentDate = new Date();
           currentDate.setDate(currentDate.getDate() + i);
           let day = currentDate.getDay();
           day = days[day];
 
           let workingHoursDay = res.doctors[0].workingHours[day];
-          // let blockedHours = getBlockedHours(res.doctors[0]._id,currentDate,res.sheduleVisit);
-          // console.log(blockedHours);
+          let timeSlots = [];
 
           if (workingHoursDay.isWorking === true) {
             
-            const timeSlots = generateTimeSlots(currentDate, workingHoursDay.open, workingHoursDay.close);
+            timeSlots = generateTimeSlots(currentDate, workingHoursDay.open, workingHoursDay.close, res.sheduleVisit, res.doctors[0]._id);
 
             timeSlotsArray.push(timeSlots);
           }
         }
-        console.log(timeSlotsArray);
+
         setDates(timeSlotsArray);
 
       } catch (error) {
@@ -144,7 +171,7 @@ const CreateVisit = () => {
     const selectedHour = event.target.hour.value;
     console.log(selectedHour);
     const token = localStorage.getItem("token");
-    
+
     try {
       const response = await axios.post("createVisit", {
         doctor_id: doctor._id,
@@ -152,10 +179,10 @@ const CreateVisit = () => {
         date: selectedHour,
       });
 
-      
+
       console.log(response.data);
     } catch (error) {
-      
+
       console.log(error);
     }
   };
@@ -188,7 +215,7 @@ const CreateVisit = () => {
                     <tr className="text-center">
                       <th scope="col-" className="align-middle" >Data</th>
                       <th scope="col-auto" className="d-flex justify-content-start" >Godzina</th>
-                     
+
                     </tr>
                   </thead>
 
@@ -198,18 +225,18 @@ const CreateVisit = () => {
                       <tr className="text-center" >
 
                         <td className="align-middle col-4">
-                        {dayPl[item[0].getDay()]} {item[0].toLocaleDateString("pl-PL")} 
+                          {dayPl[item[0].getDay()]} {item[0].toLocaleDateString("pl-PL")}
 
                         </td>
                         <td className="align-middle col-4" >
                           <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
-                          <select className="custom-select text-white bg-dark border-dark col-4 " name="hour">
-                                {item.map((hour)=>(
-                                  <option value={hour}>{hour.toLocaleTimeString("pl-PL",{
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                  })}</option>
-                                ))}
+                            <select className="custom-select text-white bg-dark border-dark col-4 " name="hour">
+                              {item.map((hour) => (
+                                <option value={hour}>{hour.toLocaleTimeString("pl-PL", {
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                })}</option>
+                              ))}
                             </select>
                             <button type="submit" className="btn btn-secondary" >Umów</button>
                           </form>
@@ -217,7 +244,7 @@ const CreateVisit = () => {
 
 
                         </td>
-                        
+
 
                       </tr>
 
